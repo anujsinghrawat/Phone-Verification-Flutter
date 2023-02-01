@@ -13,6 +13,7 @@ class _EntryState extends State<Entry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -40,28 +41,28 @@ class _EntryState extends State<Entry> {
             //
             const Text("you can change the language at any time."),
 
-            SizedBox(height: 50,),
-
-
+            const SizedBox(
+              height: 50,
+            ),
 
             //
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 50),
+              margin: const EdgeInsets.symmetric(horizontal: 50),
               child: DropdownButtonFormField(
-                decoration: InputDecoration(
-
+                  decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                      borderSide:
+                          const BorderSide(color: Colors.blue, width: 2),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                      borderSide:
+                          const BorderSide(color: Colors.blue, width: 2),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     filled: true,
                     // fillColor: Colors.blueAccent,
                   ),
-                
                   value: selectedValue,
                   style: TextStyle(color: Colors.grey.shade800, fontSize: 20),
                   onChanged: (String? newValue) {
@@ -72,30 +73,36 @@ class _EntryState extends State<Entry> {
                   items: dropdownItems),
             ),
 
-
-            SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             SizedBox(
               width: 360,
               height: 50,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue.shade900,
-                      shape: RoundedRectangleBorder()),
-                  onPressed: () {},
+                      shape: const RoundedRectangleBorder()),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/phone');
+                  },
                   child: const Text(
                     "NEXT",
                     style: TextStyle(fontSize: 20),
                   )),
             ),
 
-
-            SizedBox(
+            const SizedBox(
               height: 200,
             ),
-            Image(image: AssetImage('./assets/layer2.png'),
-            width: 500,)
+            
           ],
         ),
+      ),
+      bottomNavigationBar: const Image(
+        image: AssetImage('./assets/layer2.png'),
+        fit: BoxFit.contain,
+        width: 400,
       ),
     );
   }
@@ -103,10 +110,10 @@ class _EntryState extends State<Entry> {
 
 List<DropdownMenuItem<String>> get dropdownItems {
   List<DropdownMenuItem<String>> menuItems = [
-    DropdownMenuItem(child: Text("English"), value: "English"),
-    DropdownMenuItem(child: Text("Hindi"), value: "Hindi"),
-    DropdownMenuItem(child: Text("Tamil"), value: "Tamil"),
-    DropdownMenuItem(child: Text("Telugu"), value: "Telugu"),
+    const DropdownMenuItem(child: Text("English"), value: "English"),
+    const DropdownMenuItem(child: Text("Hindi"), value: "Hindi"),
+    const DropdownMenuItem(child: Text("Tamil"), value: "Tamil"),
+    const DropdownMenuItem(child: Text("Telugu"), value: "Telugu"),
   ];
   return menuItems;
 }

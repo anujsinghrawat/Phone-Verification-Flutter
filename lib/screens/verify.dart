@@ -71,16 +71,17 @@ class _VerifyState extends State<Verify> {
                 height: 25,
               ),
               const Text(
-                "Phone Verification",
+                "Verify Phone",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                "We need to register your phone without getting started!",
-                style: TextStyle(
+              Text(
+                "Code sent to +91${Phone.number}",
+                style:  TextStyle(
                   fontSize: 16,
+                  color: Colors.grey[700]
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -89,10 +90,6 @@ class _VerifyState extends State<Verify> {
               ),
               Pinput(
                 length: 6,
-                // defaultPinTheme: defaultPinTheme,
-                // focusedPinTheme: focusedPinTheme,
-                // submittedPinTheme: submittedPinTheme,
-
                 showCursor: true,
                 onCompleted: (pin) => print(pin),
                 onChanged: (value) {
@@ -100,14 +97,73 @@ class _VerifyState extends State<Verify> {
                 },
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Didn't received the code?",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[700]
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 20),
+                    ),
+                    onPressed: ()async {
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                        phoneNumber: "+91${Phone.number}",
+                        verificationCompleted:
+                            (PhoneAuthCredential credential) {},
+                        verificationFailed: (FirebaseAuthException e) {},
+                        codeSent: (String verificationId, int? resendToken) {
+                          // Navigator.pushNamed(context, '/verify');
+                          Phone.verify = verificationId;
+                        },
+                        codeAutoRetrievalTimeout: (String verificationId) {},
+                      );
+                      final snackBar = SnackBar(
+                          /// need to set following properties for best effect of awesome_snackbar_content
+                          elevation: 0,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          content: AwesomeSnackbarContent(
+                            title: 'Code sent again',
+                            message: 'please check your inbox',
+
+                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                            contentType: ContentType.help,
+                          ),
+                        );
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(snackBar);
+                        // Navigator.pushNamedAndRemoveUntil(
+                        //     context, "/home", (route) => false);
+
+                    },
+                    child:  Text('Request Again',
+                    style: TextStyle(
+                      fontSize:16,
+                      color: Colors.black
+
+                    ),),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 15,
               ),
               SizedBox(
                 width: double.infinity,
                 height: 45,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green.shade600,
+                        backgroundColor: Colors.blue.shade900,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
@@ -125,8 +181,7 @@ class _VerifyState extends State<Verify> {
                           backgroundColor: Colors.transparent,
                           content: AwesomeSnackbarContent(
                             title: 'Verfication Sucessfull!',
-                            message:
-                                'you have been verified!',
+                            message: 'you have been verified!',
 
                             /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
                             contentType: ContentType.success,
@@ -145,8 +200,7 @@ class _VerifyState extends State<Verify> {
                           backgroundColor: Colors.transparent,
                           content: AwesomeSnackbarContent(
                             title: 'Error!',
-                            message:
-                                'You have entered wrong otp!',
+                            message: 'You have entered wrong otp!',
 
                             /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
                             contentType: ContentType.failure,
@@ -155,20 +209,21 @@ class _VerifyState extends State<Verify> {
                         ScaffoldMessenger.of(context)
                           ..hideCurrentSnackBar()
                           ..showSnackBar(snackBar);
-                        print("wrong otp");
+                        // print("wrong otp");
                       }
                     },
-                    child: const Text("Verify Phone Number")),
+                    child: const Text("VERIFY AND CONTINUE")),
               ),
               Row(
                 children: [
                   TextButton(
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          'phone',
-                          (route) => false,
-                        );
+                        // Navigator.pushNamedAndRemoveUntil(
+                        //   context,
+                        //   'phone',
+                        //   (route) => false,
+                        // );
+                        Navigator.pop(context);
                       },
                       child: const Text(
                         "Edit Phone Number ?",

@@ -5,6 +5,8 @@ class Phone extends StatefulWidget {
   const Phone({super.key});
 
   static String verify = "";
+  static String number = "";
+
 
   @override
   State<Phone> createState() => _PhoneState();
@@ -23,6 +25,19 @@ class _PhoneState extends State<Phone> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.close_rounded,
+            color: Colors.black,
+          ),
+        ),
+        elevation: 0,
+      ),
       body: Container(
         margin: const EdgeInsets.only(left: 25, right: 25),
         alignment: Alignment.center,
@@ -39,14 +54,15 @@ class _PhoneState extends State<Phone> {
                 height: 25,
               ),
               const Text(
-                "Phone Verification",
+                "Please enter your phone number",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
               const Text(
-                "We need to register your phone without getting started!",
+                "You will receive a 6 digit code to verify next!",
+
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -87,12 +103,14 @@ class _PhoneState extends State<Phone> {
                         child: TextField(
                       onChanged: (value) {
                         phone = value;
-                        print(value);
+                        Phone.number= phone;
+
+                        // print(value);
                       },
                       keyboardType: TextInputType.phone,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Phone",
+                        hintText: "9876543210",
                       ),
                     ))
                   ],
@@ -110,7 +128,7 @@ class _PhoneState extends State<Phone> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
-                      print(countryController.text + phone);
+                      // print(countryController.text + phone);
                       await FirebaseAuth.instance.verifyPhoneNumber(
                         phoneNumber: countryController.text + phone,
                         verificationCompleted:
@@ -124,7 +142,7 @@ class _PhoneState extends State<Phone> {
                       );
                       
                     },
-                    child: const Text("Send the code")),
+                    child: const Text("Continue")),
               )
             ],
           ),
